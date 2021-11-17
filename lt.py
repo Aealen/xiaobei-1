@@ -6,8 +6,8 @@ import requests
 import time
 
 # 小北学生 账号密码
-USERNAME = os.getenv("XB_USERNAME_FMX")
-PASSWORD = os.getenv("XB_PASSWORD_FMX")
+USERNAME = os.getenv("XB_USERNAME_LT")
+PASSWORD = os.getenv("XB_PASSWORD_LT")
 # 经纬度
 LOCATION = os.getenv("XB_LOCATION")
 # 位置，可选通过接口获取
@@ -210,14 +210,14 @@ if __name__ == '__main__':
     if code != 200:
         print("Sorry! Login failed! Error：" + msg)
         if SCKEY!="":
-            notify("方明轩:登录失败，失败原因：" + msg)
+            notify("卢彤:登录失败，失败原因：" + msg)
         # 发送邮件
         if EMAIL != '':
             send_mail("登录失败，失败原因：" + msg)
         if WX_APP != '':
             wxapp_notify("登录失败，失败原因：" + msg)
     else:
-        print("方明轩:登录成功！")
+        print("卢彤:登录成功！")
 
         # HEADERS.update({'authorization', token})
         # 换个方法
@@ -244,15 +244,15 @@ if __name__ == '__main__':
         if status == 200:
             print("恭喜您打卡成功啦！")
             if SCKEY!='':
-                notify("方明轩:打卡成功啦🎉")
+                notify("卢彤:打卡成功啦🎉")
             if EMAIL != '':
-                send_mail("方明轩:打卡成功啦🎉")
+                send_mail("卢彤:打卡成功啦🎉")
             if WX_APP != '':
-                wxapp_notify("方明轩:打卡成功啦🎉")
+                wxapp_notify("卢彤:打卡成功啦🎉")
         else:
             print("Error：" + json.loads(respond)['msg'])
             if SCKEY!='':
-                notify("方明轩:🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
+                notify("卢彤:🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
             if EMAIL != 'yes':
                 send_mail("🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
             if WX_APP != '':
