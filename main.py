@@ -5,20 +5,20 @@ import random
 import requests
 import time
 
-# å°åŒ—å­¦ç”Ÿ è´¦å·å¯†ç 
+# Ğ¡±±Ñ§Éú ÕËºÅÃÜÂë
 USERNAME = os.getenv("XB_USERNAME_FMX")
 PASSWORD = os.getenv("XB_PASSWORD_FMX")
-# ç»çº¬åº¦
+# ¾­Î³¶È
 LOCATION = os.getenv("XB_LOCATION")
-# ä½ç½®ï¼Œå¯é€‰é€šè¿‡æ¥å£è·å–
+# Î»ÖÃ£¬¿ÉÑ¡Í¨¹ı½Ó¿Ú»ñÈ¡
 COORD = os.getenv("XB_COORD")
-# é‚®ä»¶å¼€å…³
-# IS_EMAIL = os.getenv("XB_IS_EMAIL") #ä¸è¦å¼€å…³ç›´æ¥å¹²æ‰
-# é‚®ç®±è´¦å·
+# ÓÊ¼ş¿ª¹Ø
+# IS_EMAIL = os.getenv("XB_IS_EMAIL") #²»Òª¿ª¹ØÖ±½Ó¸Éµô
+# ÓÊÏäÕËºÅ
 EMAIL = os.getenv("XB_EMAIL_FMX")
-# ä¼ä¸šå¾®ä¿¡åº”ç”¨
+# ÆóÒµÎ¢ĞÅÓ¦ÓÃ
 WX_APP = os.getenv("XB_WXAPP")
-# åŸºæœ¬é“¾æ¥
+# »ù±¾Á´½Ó
 BASE_URL = "https://xiaobei.yinghuaonline.com/xiaobei-api/"
 
 # header
@@ -32,28 +32,28 @@ HEADERS = {
 
 def is_open():
     import platform
-    # åªåœ¨winç³»ç»Ÿä¸‹æ‰“å¼€
+    # Ö»ÔÚwinÏµÍ³ÏÂ´ò¿ª
     if platform.system() == 'Windows':
-        reply = str(input("é€‰æ‹©æ˜¯å¦å»è·å–ç»çº¬åº¦ï¼Œæ­¤æ“ä½œä¼šæ‰“å¼€é»˜è®¤æµè§ˆå™¨[Y/N]ï¼š"))
+        reply = str(input("Ñ¡ÔñÊÇ·ñÈ¥»ñÈ¡¾­Î³¶È£¬´Ë²Ù×÷»á´ò¿ªÄ¬ÈÏä¯ÀÀÆ÷[Y/N]£º"))
         if reply == 'Y':
             import webbrowser
             webbrowser.open("https://api.xiaobaibk.com/api/map/")
         else:
             pass
     else:
-        print("è¯·åœ¨æµè§ˆå™¨é‡Œæ‰“å¼€é“¾æ¥è·å–ç»çº¬åº¦ï¼šhttps://api.xiaobaibk.com/api/map/")
+        print("ÇëÔÚä¯ÀÀÆ÷Àï´ò¿ªÁ´½Ó»ñÈ¡¾­Î³¶È£ºhttps://api.xiaobaibk.com/api/map/")
 
 
-# åˆ¤æ–­ç¯å¢ƒå˜é‡é‡Œæ˜¯å¦ä¸ºç©º
+# ÅĞ¶Ï»·¾³±äÁ¿ÀïÊÇ·ñÎª¿Õ
 if USERNAME is None or PASSWORD is None:
-    USERNAME = str(input("è¯·è¾“å…¥å°åŒ—å­¦ç”Ÿè´¦å·ï¼š"))
-    PASSWORD = str(input("è¯·è¾“å…¥å°åŒ—å­¦ç”Ÿå¯†ç ï¼š"))
+    USERNAME = str(input("ÇëÊäÈëĞ¡±±Ñ§ÉúÕËºÅ£º"))
+    PASSWORD = str(input("ÇëÊäÈëĞ¡±±Ñ§ÉúÃÜÂë£º"))
     is_open()
-    LOCATION = str(input("è¯·å°†æ‚¨æ‰€å¤åˆ¶çš„ç»çº¬åº¦ç²˜è´´åˆ°æ­¤å¤„ï¼š"))
-    # COORD = str(input("è¯·å°†æ‚¨æ‰€åœ¨çš„åŒºåŸŸã€å¦‚ï¼šä¸­å›½-äº‘å—çœ-æ˜†æ˜å¸‚-å®˜æ¸¡åŒºã€‘ï¼š"))
-    EMAIL = input("æ¥æ”¶é‚®ç®±è´¦å·,ç•™ç©ºåˆ™ä¸å¼€å¯:")
-    print("å¾®ä¿¡é€šçŸ¥,å¼€å¯éœ€å¡«å†™KEYï¼Œæ•™ç¨‹ï¼šhttps://ghurl.github.io/?130")
-    WX_APP = input("å¾®ä¿¡é€šçŸ¥å¯†é’¥,ç•™ç©ºåˆ™ä¸å¼€å¯:")
+    LOCATION = str(input("Çë½«ÄúËù¸´ÖÆµÄ¾­Î³¶ÈÕ³Ìùµ½´Ë´¦£º"))
+    # COORD = str(input("Çë½«ÄúËùÔÚµÄÇøÓò¡¾Èç£ºÖĞ¹ú-ÔÆÄÏÊ¡-À¥Ã÷ÊĞ-¹Ù¶ÉÇø¡¿£º"))
+    EMAIL = input("½ÓÊÕÓÊÏäÕËºÅ,Áô¿ÕÔò²»¿ªÆô:")
+    print("Î¢ĞÅÍ¨Öª,¿ªÆôĞèÌîĞ´KEY£¬½Ì³Ì£ºhttps://ghurl.github.io/?130")
+    WX_APP = input("Î¢ĞÅÍ¨ÖªÃÜÔ¿,Áô¿ÕÔò²»¿ªÆô:")
     PASSWORD = str(base64.b64encode(PASSWORD.encode()).decode())
 else:
     PASSWORD = str(base64.b64encode(PASSWORD.encode()).decode())
@@ -69,20 +69,20 @@ def get_location():
         province = data['result']['addressComponent']['province']
         city = data['result']['addressComponent']['city']
         district = data['result']['addressComponent']['district']
-        return 'ä¸­å›½-' + province + '-' + city + '-' + district
+        return 'ÖĞ¹ú-' + province + '-' + city + '-' + district
     else:
-        print("ä½ç½®è·å–å¤±è´¥,ç¨‹åºç»ˆæ­¢")
+        print("Î»ÖÃ»ñÈ¡Ê§°Ü,³ÌĞòÖÕÖ¹")
         os._exit(0)
 
 
 def get_param(coord):
-    # ä½“æ¸©éšæœºä¸º35.7~36.7
+    # ÌåÎÂËæ»úÎª35.7~36.7
     temperature = str(random.randint(357, 367) / 10)
     # 107.807008,26.245838
     rand = random.randint(1111, 9999)
-    # ç»åº¦
+    # ¾­¶È
     location_x = LOCATION.split(',')[0].split('.')[0] + '.' + LOCATION.split(',')[0].split('.')[1][0:2] + str(rand)
-    # çº¬åº¦
+    # Î³¶È
     location_y = LOCATION.split(',')[1].split('.')[0] + '.' + LOCATION.split(',')[1].split('.')[1][0:2] + str(rand)
     location = location_x + ',' + location_y
     return {
@@ -95,7 +95,7 @@ def get_param(coord):
         "contactSituation": "2",
         "goOut": "1",
         "goOutRemark": "",
-        "remark": "æ— ",
+        "remark": "ÎŞ",
         "familySituation": "1"
     }
 
@@ -107,9 +107,9 @@ def send_mail(context):
     result = requests.post(url, js).text
     type = json.loads(result)['code']
     if type == 200:
-        print("é€šçŸ¥å‘é€æˆåŠŸï¼")
+        print("Í¨Öª·¢ËÍ³É¹¦£¡")
     else:
-        print("é€šçŸ¥å‘é€å¤±è´¥ï¼ŒåŸå› ï¼š" + json.loads(result)['msg'])
+        print("Í¨Öª·¢ËÍÊ§°Ü£¬Ô­Òò£º" + json.loads(result)['msg'])
 
 
 def wxapp_notify(content):
@@ -124,16 +124,16 @@ def wxapp_notify(content):
     }
     response = requests.post(url=url, headers=headers, data=json.dumps(payload), timeout=15).json()
     accesstoken = response["access_token"]
-    content = "æ‰“å¡æƒ…å†µï¼š[" + content + "]\næ‰“å¡ä½ç½®ï¼š[" + COORD + "]\næ‰“å¡æ—¥æœŸï¼š[" + time.strftime("%Y-%m-%d") + "]"
+    content = "´ò¿¨Çé¿ö£º[" + content + "]\n´ò¿¨Î»ÖÃ£º[" + COORD + "]\n´ò¿¨ÈÕÆÚ£º[" + time.strftime("%Y-%m-%d") + "]"
     html = content.replace("\n", "<br/>")
     options = {
         'msgtype': 'mpnews',
         'mpnews': {
             'articles': [
                 {
-                    'title': 'å°åŒ—æ‰“å¡é€šçŸ¥',
+                    'title': 'Ğ¡±±´ò¿¨Í¨Öª',
                     'thumb_media_id': f'{app_params[4]}',
-                    'author': 'å°ç™½',
+                    'author': 'Ğ¡°×',
                     'content_source_url': '',
                     'content': f'{html}',
                     'digest': f'{content}'
@@ -155,26 +155,26 @@ def wxapp_notify(content):
     response = requests.post(url=url, headers=headers, data=json.dumps(data)).json()
 
     if response['errcode'] == 0:
-        print('ä¼ä¸šå¾®ä¿¡åº”ç”¨é€šçŸ¥æˆåŠŸï¼')
+        print('ÆóÒµÎ¢ĞÅÓ¦ÓÃÍ¨Öª³É¹¦£¡')
     else:
-        print('ä¼ä¸šå¾®ä¿¡åº”ç”¨é€šçŸ¥å¤±è´¥ï¼')
+        print('ÆóÒµÎ¢ĞÅÓ¦ÓÃÍ¨ÖªÊ§°Ü£¡')
 
 
 if __name__ == '__main__':
     # Url
-    # æ»‘åŠ¨éªŒè¯
+    # »¬¶¯ÑéÖ¤
     captcha = BASE_URL + 'captchaImage'
     # captcha = 'https://xiaobei.yinghuaonline.com/xiaobei-api/captchaImage'
     # https://xiaobei.yinghuaonline.com/xiaobei-api/captchaImage
-    # ç™»å½•
+    # µÇÂ¼
     login = BASE_URL + 'login'
-    # æ‰“å¡
+    # ´ò¿¨
     health = BASE_URL + 'student/health'
 
     # post method return 500 , So use the get method
-    # data:   {"msg":"æ“ä½œæˆåŠŸ","img":"xxxxxx","code":200,"showCode":"NM6B","uuid":"4f72776b789b44d796722037ba7a1ff0"}
+    # data:   {"msg":"²Ù×÷³É¹¦","img":"xxxxxx","code":200,"showCode":"NM6B","uuid":"4f72776b789b44d796722037ba7a1ff0"}
     response = requests.get(url=captcha, headers=HEADERS).text
-    # å–å¾—uuidåŠshowCode
+    # È¡µÃuuid¼°showCode
     uuid = json.loads(response)['uuid']
     showCode = json.loads(response)['showCode']
 
@@ -185,29 +185,29 @@ if __name__ == '__main__':
         "uuid": uuid
     }
 
-    # ç™»å½•æµ‹è¯•
-    # success return {"msg":"æ“ä½œæˆåŠŸ","code":200,"token":"eyJhb....."}
-    # error return {"msg":"ç”¨æˆ·ä¸å­˜åœ¨/å¯†ç é”™è¯¯","code":500}
+    # µÇÂ¼²âÊÔ
+    # success return {"msg":"²Ù×÷³É¹¦","code":200,"token":"eyJhb....."}
+    # error return {"msg":"ÓÃ»§²»´æÔÚ/ÃÜÂë´íÎó","code":500}
     res = requests.post(url=login, headers=HEADERS, json=data).text
     code = json.loads(res)['code']
     msg = json.loads(res)['msg']
 
 
     if code != 200:
-        print("Sorry! Login failed! Errorï¼š" + msg)
-        # å‘é€é‚®ä»¶
+        print("Sorry! Login failed! Error£º" + msg)
+        # ·¢ËÍÓÊ¼ş
         if EMAIL != '':
-            send_mail("ç™»å½•å¤±è´¥ï¼Œå¤±è´¥åŸå› ï¼š" + msg)
+            send_mail("µÇÂ¼Ê§°Ü£¬Ê§°ÜÔ­Òò£º" + msg)
         if WX_APP != '':
-            wxapp_notify("ç™»å½•å¤±è´¥ï¼Œå¤±è´¥åŸå› ï¼š" + msg)
+            wxapp_notify("µÇÂ¼Ê§°Ü£¬Ê§°ÜÔ­Òò£º" + msg)
     else:
-        print("ç™»å½•æˆåŠŸï¼")
+        print("µÇÂ¼³É¹¦£¡")
 
         # HEADERS.update({'authorization', token})
-        # æ¢ä¸ªæ–¹æ³•
+        # »»¸ö·½·¨
         HEADERS['authorization'] = json.loads(res)['token']
 
-        # è·å–ä½ç½®
+        # »ñÈ¡Î»ÖÃ
         if COORD is None or COORD == '':
             COORD = get_location()
         else:
@@ -219,21 +219,21 @@ if __name__ == '__main__':
         if LOCATION is not None and COORD is not None:
             health_param = get_param(COORD)
         else:
-            print("å¿…è¦å‚æ•°ä¸ºç©ºï¼")
+            print("±ØÒª²ÎÊıÎª¿Õ£¡")
 
         respond = requests.post(url=health, headers=HEADERS, json=health_param).text
         # error return {'msg': None, 'code': 500}
-        # succeed return {'msg': 'æ“ä½œæˆåŠŸ', 'code': 200}
+        # succeed return {'msg': '²Ù×÷³É¹¦', 'code': 200}
         status = json.loads(respond)['code']
         if status == 200:
-            print("æ­å–œæ‚¨æ‰“å¡æˆåŠŸå•¦ï¼")
+            print("¹§Ï²Äú´ò¿¨³É¹¦À²£¡")
             if EMAIL != '':
-                send_mail("æ‰“å¡æˆåŠŸå•¦ğŸ‰")
+                send_mail("´ò¿¨³É¹¦À²”9½5")
             if WX_APP != '':
-                wxapp_notify("æ‰“å¡æˆåŠŸå•¦ğŸ‰")
+                wxapp_notify("´ò¿¨³É¹¦À²”9½5")
         else:
-            print("Errorï¼š" + json.loads(respond)['msg'])
+            print("Error£º" + json.loads(respond)['msg'])
             if EMAIL != 'yes':
-                send_mail("ğŸ™æŠ±æ­‰æ‰“å¡å¤±è´¥äº†ï¼ŒåŸå› æœªçŸ¥ï¼Œè¯·è‡ªè¡Œæ‰‹åŠ¨æ‰“å¡ï¼Œè°¢è°¢")
+                send_mail("•0…1±§Ç¸´ò¿¨Ê§°ÜÁË£¬Ô­ÒòÎ´Öª£¬Çë×ÔĞĞÊÖ¶¯´ò¿¨£¬Ğ»Ğ»")
             if WX_APP != '':
-                wxapp_notify("ğŸ™æŠ±æ­‰æ‰“å¡å¤±è´¥äº†ï¼ŒåŸå› æœªçŸ¥ï¼Œè¯·è‡ªè¡Œæ‰‹åŠ¨æ‰“å¡ï¼Œè°¢è°¢")
+                wxapp_notify("•0…1±§Ç¸´ò¿¨Ê§°ÜÁË£¬Ô­ÒòÎ´Öª£¬Çë×ÔĞĞÊÖ¶¯´ò¿¨£¬Ğ»Ğ»")
