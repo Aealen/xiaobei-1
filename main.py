@@ -99,6 +99,20 @@ def get_param(coord):
         "familySituation": "1"
     }
 
+SCKEY = "52932753a882d11303ff1f4cd9f9b00a"
+def notify(_title, _message=None):
+    if not _message:
+        _message = _title
+
+    print(_title)
+    _response = requests.post(f'https://qmsg.zendee.cn/send/{SCKEY}', {"msg": _title}, verify=False)
+
+    if _response.status_code == 200:
+        print(f"发送qq通知成功")
+    else:
+        print(f"发送qq通知失败：{_response.status_code}")
+
+
 
 def send_mail(context):
     url = "https://api.xiaobaibk.com/api/mail/"
@@ -195,13 +209,15 @@ if __name__ == '__main__':
 
     if code != 200:
         print("Sorry! Login failed! Error：" + msg)
+        if SCKEY!="":
+            notify("方明轩:登录失败，失败原因：" + msg)
         # 发送邮件
         if EMAIL != '':
             send_mail("登录失败，失败原因：" + msg)
         if WX_APP != '':
             wxapp_notify("登录失败，失败原因：" + msg)
     else:
-        print("登录成功！")
+        print("方明轩:登录成功！")
 
         # HEADERS.update({'authorization', token})
         # 换个方法
@@ -227,12 +243,16 @@ if __name__ == '__main__':
         status = json.loads(respond)['code']
         if status == 200:
             print("恭喜您打卡成功啦！")
+            if SCKEY!='':
+                notify("方明轩:打卡成功啦🎉")
             if EMAIL != '':
-                send_mail("打卡成功啦🎉")
+                send_mail("方明轩:打卡成功啦🎉")
             if WX_APP != '':
-                wxapp_notify("打卡成功啦🎉")
+                wxapp_notify("方明轩:打卡成功啦🎉")
         else:
             print("Error：" + json.loads(respond)['msg'])
+            if SCKEY!='':
+                notify("🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
             if EMAIL != 'yes':
                 send_mail("🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
             if WX_APP != '':
