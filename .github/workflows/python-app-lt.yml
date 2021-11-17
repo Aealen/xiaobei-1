@@ -40,9 +40,9 @@ jobs:
         # 环境变量
         env:
           # 必填
-          XB_USERNAME_FMX: ${{ secrets.XB_USERNAME_LT }}
+          XB_USERNAME_LT: ${{ secrets.XB_USERNAME_LT }}
           # 必填
-          XB_PASSWORD_FMX: ${{ secrets.XB_PASSWORD_LT }}
+          XB_PASSWORD_LT: ${{ secrets.XB_PASSWORD_LT }}
 
           XB_EMAIL_FMX: ${{secrets.XB_EMAIL_FMX}}
           # 选填 填则通知，不填则不通知
