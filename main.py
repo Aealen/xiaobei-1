@@ -15,7 +15,7 @@ COORD = os.getenv("XB_COORD")
 # 邮件开关
 # IS_EMAIL = os.getenv("XB_IS_EMAIL") #不要开关直接干掉
 # 邮箱账号
-EMAIL = os.getenv("XB_EMAIL")
+EMAIL = os.getenv("XB_EMAIL_FMX")
 # 企业微信应用
 WX_APP = os.getenv("XB_WXAPP")
 # 基本链接

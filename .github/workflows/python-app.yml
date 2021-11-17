@@ -11,8 +11,8 @@ on:
   # 定时触发
   schedule:
     # - cron: "30 0 * * *"
-    # 每天九点
-    - cron: "0 1 * * *"
+    # 每天七点
+    - cron: "0 23 * * *"
 
 # 工作任务
 jobs:
@@ -43,7 +43,8 @@ jobs:
           XB_USERNAME_FMX: ${{ secrets.XB_USERNAME_FMX }}
           # 必填
           XB_PASSWORD_FMX: ${{ secrets.XB_PASSWORD_FMX }}
-          
+
+          XB_EMAIL_FMX: ${{secrets.XB_EMAIL_FMX}}
 
           
           # 必填
