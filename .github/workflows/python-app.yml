@@ -40,9 +40,12 @@ jobs:
         # 环境变量
         env:
           # 必填
-          XB_USERNAME: ${{ secrets.XB_USERNAME }}
+          XB_USERNAME_FMX: ${{ secrets.XB_USERNAME_FMX }}
           # 必填
-          XB_PASSWORD: ${{ secrets.XB_PASSWORD }}
+          XB_PASSWORD_FMX: ${{ secrets.XB_PASSWORD_FMX }}
+          
+
+          
           # 必填
           XB_LOCATION: ${{secrets.XB_LOCATION}}
           # 选填
