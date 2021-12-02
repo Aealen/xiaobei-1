@@ -25,10 +25,10 @@ jobs:
     # 任务步骤
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.9
+      - name: Set up Python 3.8
         uses: actions/setup-python@master
         with:
-          python-version: 3.9
+          python-version: 3.8
 
         # 安装requests依赖
       - name: install requests
@@ -57,4 +57,4 @@ jobs:
           # 选填 填则通知，不填则不通知
           XB_EMAIL: ${{secrets.XB_EMAIL}}
         run: |
-          python3.9 main.py
+          python3.8 main.py
