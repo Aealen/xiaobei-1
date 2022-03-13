@@ -63,7 +63,12 @@ def get_location():
     lc = LOCATION.split(',')
     location = lc[1] + ',' + lc[0]
     url = "https://api.xiaobaibk.com/api/location/?location=" + location
-    result = requests.get(url).text
+    try:
+        result = requests.get(url).text
+    except:
+        print("获取地址失败！")
+        wxapp_notify('😂由于获取位置信息失败打卡不成功，估计接口服务器崩了吧', '小北打卡失败')
+
     data = json.loads(result)
     if data['status'] == 0:
         province = data['result']['addressComponent']['province']
@@ -73,7 +78,6 @@ def get_location():
     else:
         print("位置获取失败,程序终止")
         os._exit(0)
-
 
 def get_param(coord):
     # 体温随机为35.7~36.7
