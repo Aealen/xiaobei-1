@@ -55,7 +55,7 @@ if USERNAME is None or PASSWORD is None:
     USERNAME = str(input("请输入小北学生账号："))
     PASSWORD = str(input("请输入小北学生密码："))
     is_open()
-    LOCATION = str(input("请将您所复制的经纬度粘贴到此处："))
+    LOCATION = str(input("105.887775,29.39463"))
     print("登录网站【https://sct.ftqq.com/】获取sendkey")
     SENDKEY = input("[留空则不开启]server酱通知密钥:")
     print("微信通知,开启需填写KEY，教程：https://ghurl.github.io/?130")
