@@ -47,7 +47,7 @@ jobs:
           XB_EMAIL_FMX: ${{secrets.XB_EMAIL_FMX}}
           # 选填 填则通知，不填则不通知
           XB_WXAPP: ${{secrets.XB_WXAPP}}
-          
+          SENDKEY: ${{secrets.XB_SENDKEY}}
           # 必填
           XB_LOCATION: ${{secrets.XB_LOCATION}}
           # 选填

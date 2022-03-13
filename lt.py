@@ -14,7 +14,7 @@ LOCATION = os.getenv("XB_LOCATION")
 COORD = os.getenv("XB_COORD")
 
 #server酱
-SENDKEY = os.getenv("52932753a882d11303ff1f4cd9f9b00a")
+SENDKEY = os.getenv("SENDLEY")
 
 # 企业微信应用
 WX_APP = os.getenv("XB_WXAPP")
@@ -57,7 +57,7 @@ if USERNAME is None or PASSWORD is None:
     is_open()
     LOCATION = str(input("105.887775,29.39463"))
     print("登录网站【https://sct.ftqq.com/】获取sendkey")
-    SENDKEY = input("[留空则不开启]server酱通知密钥:")
+    SENDKEY = input("52932753a882d11303ff1f4cd9f9b00a")
     print("微信通知,开启需填写KEY，教程：https://ghurl.github.io/?130")
     WX_APP = input("微信通知密钥,留空则不开启:")
     PASSWORD = str(base64.b64encode(PASSWORD.encode()).decode())
