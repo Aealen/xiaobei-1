@@ -12,10 +12,10 @@ PASSWORD = os.getenv("XB_PASSWORD_LT")
 LOCATION = os.getenv("XB_LOCATION")
 # 位置，可选通过接口获取
 COORD = os.getenv("XB_COORD")
-# 邮件开关
-# IS_EMAIL = os.getenv("XB_IS_EMAIL") #不要开关直接干掉
-# 邮箱账号
-EMAIL = os.getenv("XB_EMAIL_FMX")
+
+#server酱
+SENDKEY = os.getenv("52932753a882d11303ff1f4cd9f9b00a")
+
 # 企业微信应用
 WX_APP = os.getenv("XB_WXAPP")
 # 基本链接
@@ -44,14 +44,20 @@ def is_open():
         print("请在浏览器里打开链接获取经纬度：https://api.xiaobaibk.com/api/map/")
 
 
+if SENDKEY is None:
+    SENDKEY =''
+
+if WX_APP is None:
+    WX_APP = ''
+
 # 判断环境变量里是否为空
 if USERNAME is None or PASSWORD is None:
     USERNAME = str(input("请输入小北学生账号："))
     PASSWORD = str(input("请输入小北学生密码："))
     is_open()
     LOCATION = str(input("请将您所复制的经纬度粘贴到此处："))
-    # COORD = str(input("请将您所在的区域【如：中国-云南省-昆明市-官渡区】："))
-    EMAIL = input("接收邮箱账号,留空则不开启:")
+    print("登录网站【https://sct.ftqq.com/】获取sendkey")
+    SENDKEY = input("[留空则不开启]server酱通知密钥:")
     print("微信通知,开启需填写KEY，教程：https://ghurl.github.io/?130")
     WX_APP = input("微信通知密钥,留空则不开启:")
     PASSWORD = str(base64.b64encode(PASSWORD.encode()).decode())
@@ -67,7 +73,7 @@ def get_location():
         result = requests.get(url).text
     except:
         print("获取地址失败！")
-        wxapp_notify('😂由于获取位置信息失败打卡不成功，估计接口服务器崩了吧', '小北打卡失败')
+        wxapp_notify('卢彤:😂由于获取位置信息失败打卡不成功，估计接口服务器崩了吧', '小北打卡失败')
 
     data = json.loads(result)
     if data['status'] == 0:
@@ -78,6 +84,7 @@ def get_location():
     else:
         print("位置获取失败,程序终止")
         os._exit(0)
+
 
 def get_param(coord):
     # 体温随机为35.7~36.7
@@ -103,34 +110,34 @@ def get_param(coord):
         "familySituation": "1"
     }
 
-SCKEY = "52932753a882d11303ff1f4cd9f9b00a"
-def notify(_title, _message=None):
-    if not _message:
-        _message = _title
 
-    print(_title)
-    _response = requests.post(f'https://qmsg.zendee.cn/send/{SCKEY}', {"msg": _title}, verify=False)
-
-    if _response.status_code == 200:
-        print(f"发送qq通知成功")
-    else:
-        print(f"发送qq通知失败：{_response.status_code}")
-
-
-
-def send_mail(context):
-    url = "https://api.xiaobaibk.com/api/mail/"
-    js = {'mailto': EMAIL, 'content': context}
-    # {"code":200,"msg":"\u606d\u559c\u60a8\u53d1\u9001\u6210\u529f\u4e86"}
-    result = requests.post(url, js).text
-    type = json.loads(result)['code']
-    if type == 200:
-        print("通知发送成功！")
-    else:
-        print("通知发送失败，原因：" + json.loads(result)['msg'])
+def sc_send(context):
+    baseUrl = 'https://sctapi.ftqq.com/'+SENDKEY+'.send'
+    resp = None
+    data = {
+        "text": context,
+        "desp": context
+    }
+    try:
+        resp = requests.post(baseUrl, data=data).text
+        # {"code":0,"message":"","data":{"pushid":"35319564","readkey":"SCT1c4Qpzp0F9u7","error":"SUCCESS","errno":0}}
+    except:
+        print("server酱通知失败了")
+    resp = json.loads(resp)
+    if resp['code'] != 0:
+        print(resp['message'])
 
 
-def wxapp_notify(content):
+# 一言
+def yiyan():
+    try:
+        txt = requests.get("https://api.xiaobaibk.com/api/yiyan.php").text
+    except:
+        txt = '随言获取失败，不清楚什么问题，问问作者吧'
+    return txt
+
+
+def wxapp_notify(content,title='小北成功打卡通知'):
     app_params = WX_APP.split(',')
     url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken'
     headers = {
@@ -140,16 +147,20 @@ def wxapp_notify(content):
         'corpid': app_params[0],
         'corpsecret': app_params[1],
     }
-    response = requests.post(url=url, headers=headers, data=json.dumps(payload), timeout=15).json()
+    try:
+        response = requests.post(url=url, headers=headers, data=json.dumps(payload), timeout=15).json()
+    except:
+        print("微信通知发送不成功！")
+        os._exit(0)
     accesstoken = response["access_token"]
-    content = "打卡情况：[" + content + "]\n打卡位置：[" + COORD + "]\n打卡日期：[" + time.strftime("%Y-%m-%d") + "]"
+    content = "打卡情况：[" + content + "]\n打卡位置：[" + COORD + "]\n打卡日期：[" + time.strftime("%Y-%m-%d") + "]\n随言：["+yiyan()+"]"
     html = content.replace("\n", "<br/>")
     options = {
         'msgtype': 'mpnews',
         'mpnews': {
             'articles': [
                 {
-                    'title': '小北打卡通知',
+                    'title': title,
                     'thumb_media_id': f'{app_params[4]}',
                     'author': '小白',
                     'content_source_url': '',
@@ -191,7 +202,12 @@ if __name__ == '__main__':
 
     # post method return 500 , So use the get method
     # data:   {"msg":"操作成功","img":"xxxxxx","code":200,"showCode":"NM6B","uuid":"4f72776b789b44d796722037ba7a1ff0"}
-    response = requests.get(url=captcha, headers=HEADERS).text
+    try:
+        response = requests.get(url=captcha, headers=HEADERS).text
+    except:
+        print("获取验证码出现错误！")
+        wxapp_notify('方明轩:😂估计小北服务器崩了或者在升级中，稍后运行脚本或者自行在软件打卡', '小北打卡失败')
+        os._exit(0)
     # 取得uuid及showCode
     uuid = json.loads(response)['uuid']
     showCode = json.loads(response)['showCode']
@@ -206,22 +222,30 @@ if __name__ == '__main__':
     # 登录测试
     # success return {"msg":"操作成功","code":200,"token":"eyJhb....."}
     # error return {"msg":"用户不存在/密码错误","code":500}
-    res = requests.post(url=login, headers=HEADERS, json=data).text
+    try:
+        res = requests.post(url=login, headers=HEADERS, json=data).text
+    except:
+        print("用户登录不成功！")
+        wxapp_notify('方明轩:😂估计小北服务器崩了或者在升级中，稍后运行脚本或者自行在软件打卡', '小北打卡失败')
+        os._exit(0)
+
     code = json.loads(res)['code']
     msg = json.loads(res)['msg']
 
 
     if code != 200:
         print("Sorry! Login failed! Error：" + msg)
-        if SCKEY!="":
-            notify("卢彤:登录失败，失败原因：" + msg)
-        # 发送邮件
-        if EMAIL != '':
-            send_mail("登录失败，失败原因：" + msg)
+
+
+        # server酱
+        if SENDKEY != '':
+            sc_send("卢彤:登录失败，失败原因：" + msg)
+
+        #
         if WX_APP != '':
-            wxapp_notify("登录失败，失败原因：" + msg)
+            wxapp_notify("卢彤:登录失败，失败原因：" + msg)
     else:
-        print("卢彤:登录成功！")
+        print("登录成功！")
 
         # HEADERS.update({'authorization', token})
         # 换个方法
@@ -229,7 +253,18 @@ if __name__ == '__main__':
 
         # 获取位置
         if COORD is None or COORD == '':
-            COORD = get_location()
+            try:
+                COORD = get_location()
+            except:
+
+                print("位置信息获取失败！")
+                err = '😩可以正常登录但是位置信息获取失败，所以打卡失败了'
+                if SENDKEY != '':
+                    sc_send(err)
+                if WX_APP != '':
+                    wxapp_notify(err, '小北打卡失败')
+                os._exit(0)
+
         else:
             pass
 
@@ -241,23 +276,37 @@ if __name__ == '__main__':
         else:
             print("必要参数为空！")
 
-        respond = requests.post(url=health, headers=HEADERS, json=health_param).text
+        try:
+            respond = requests.post(url=health, headers=HEADERS, json=health_param).text
+        except:
+            print("打卡失败！")
+            if SENDKEY != '':
+                sc_send("卢彤:打卡失败！")
+            if WX_APP != '':
+                wxapp_notify('卢彤:😩可以正常登录但是遇到异常，原因不明，请自行打卡', '小北打卡失败')
+            os._exit(0)
         # error return {'msg': None, 'code': 500}
         # succeed return {'msg': '操作成功', 'code': 200}
         status = json.loads(respond)['code']
         if status == 200:
             print("恭喜您打卡成功啦！")
-            if SCKEY!='':
-                notify("卢彤:打卡成功啦🎉")
-            if EMAIL != '':
-                send_mail("卢彤:打卡成功啦🎉")
+
+            # server酱
+            if SENDKEY != '':
+                sc_send("卢彤:打卡成功啦🎉")
+
+            #
             if WX_APP != '':
                 wxapp_notify("卢彤:打卡成功啦🎉")
         else:
             print("Error：" + json.loads(respond)['msg'])
-            if SCKEY!='':
-                notify("卢彤:🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
-            if EMAIL != 'yes':
-                send_mail("🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
+
+            print(SENDKEY)
+
+            # server酱
+            if SENDKEY != '':
+                sc_send("卢彤:🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
+
+            #
             if WX_APP != '':
-                wxapp_notify("🙁抱歉打卡失败了，原因未知，请自行手动打卡，谢谢")
+                wxapp_notify("卢彤:🙁抱歉打卡失败了，请自行手动打卡，谢谢--->失败原因:"+json.loads(respond)['msg'], '打卡失败')
