@@ -60,9 +60,9 @@ if USERNAME is None or PASSWORD is None:
     SENDKEY = input("52932753a882d11303ff1f4cd9f9b00a")
     print("微信通知,开启需填写KEY，教程：https://ghurl.github.io/?130")
     WX_APP = input("微信通知密钥,留空则不开启:")
-    PASSWORD = str(base64.b64encode(PASSWORD.encode()))
+    PASSWORD = base64.b64encode(str(base64.b64encode(PASSWORD.encode()).decode()))
 else:
-    PASSWORD = str(base64.b64encode(PASSWORD.encode()))
+    PASSWORD = base64.b64encode(str(base64.b64encode(PASSWORD.encode()).decode()))
 
 
 def get_location():
