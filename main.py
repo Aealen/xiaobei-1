@@ -7,7 +7,7 @@ import time
 
 # 小北学生 账号密码
 USERNAME = os.getenv("XB_USERNAME_FMX")
-PASSWORD = os.getenv("XB_PASSWORD_FMX")
+PASSWORD = base64.b64encode(os.getenv("XB_PASSWORD_FMX").encode('utf-8'))
 # 经纬度
 LOCATION = os.getenv("XB_LOCATION")
 # 位置，可选通过接口获取
