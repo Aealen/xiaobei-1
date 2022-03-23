@@ -7,7 +7,7 @@ import time
 
 # 小北学生 账号密码
 USERNAME = os.getenv("XB_USERNAME_FMX")
-PASSWORD = base64.b64encode(os.getenv("XB_PASSWORD_FMX").encode('utf-8'))
+PASSWORD = os.getenv("XB_PASSWORD_FMX")
 # 经纬度
 LOCATION = os.getenv("XB_LOCATION")
 # 位置，可选通过接口获取
@@ -60,9 +60,9 @@ if USERNAME is None or PASSWORD is None:
     SENDKEY = input("52932753a882d11303ff1f4cd9f9b00a")
     print("微信通知,开启需填写KEY，教程：https://ghurl.github.io/?130")
     WX_APP = input("微信通知密钥,留空则不开启:")
-    PASSWORD = str(base64.b64encode(PASSWORD.encode()).decode())
+    PASSWORD = str(base64.b64encode(PASSWORD.encode()))
 else:
-    PASSWORD = str(base64.b64encode(PASSWORD.encode()).decode())
+    PASSWORD = str(base64.b64encode(PASSWORD.encode()))
 
 
 def get_location():
