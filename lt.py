@@ -5,7 +5,7 @@ import random
 import requests
 import time
 
-# 小北学生 账号密码
+# 小北学生 账号密码  密码加密
 USERNAME = os.getenv("XB_USERNAME_LT")
 PASSWORD = os.getenv("XB_PASSWORD_LT")
 # 经纬度
